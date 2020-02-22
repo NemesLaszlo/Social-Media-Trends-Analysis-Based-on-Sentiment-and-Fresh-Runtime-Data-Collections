@@ -1,4 +1,9 @@
-import os, time, urllib.request, openpyxl, operator, tweepy
+import openpyxl
+import operator
+import os
+import time
+import tweepy
+import urllib.request
 
 
 class twitterInformationBuilder:
@@ -13,7 +18,7 @@ class twitterInformationBuilder:
         auth.set_access_token(self.accessToken, self.accessTokenSecret)
         self.api = tweepy.API(auth)
 
-    def Create_Directory(self, dir_name):
+    def create_directory(self, dir_name):
 
         if not os.path.exists("data"):
             try:
@@ -42,9 +47,9 @@ class twitterInformationBuilder:
         else:
             print("Unable to create directory 'data/data_" + dir_name + "/img': Directory already exists")
 
-    def InformationBuilder(self, tag, limit, lang):
+    def information_builder(self, tag, limit, lang):
 
-        self.Create_Directory(tag)
+        self.create_directory(dir_name=tag)
 
         print("Information Build Start")
         file_path = "data/data_" + tag
@@ -106,9 +111,9 @@ class twitterInformationBuilder:
 
         wb.save(tag_File)
         time.sleep(5)
-        self.ImageManagement(file_path, img_src)
+        self.image_management(file_path=file_path, img_src=img_src)
 
-    def ImageManagement(self, file_path, img_src):
+    def image_management(self, file_path, img_src):
         row = 1
         for src in img_src:
             try:
