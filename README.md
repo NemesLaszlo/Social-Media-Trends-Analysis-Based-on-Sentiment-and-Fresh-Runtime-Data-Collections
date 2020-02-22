@@ -1,0 +1,2 @@
+# Social-Media-Trends-Analysis-Based-on-Sentiment-and-Fresh-Runtime-Data-Collections
+Within this scope of repository, we conclude and analyze the sentiments and manifestations (comments,hastags,  posts,  tweets,  images) of the users of the Twitter social mediaplatform,  based  on  the  main  trends  and  different  subcategories  of  this trends.  Where we analyze,  compile,  visualize statistics,  and summarizefor further processing.
