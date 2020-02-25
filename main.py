@@ -1,4 +1,3 @@
-import threading
 import secret
 from analysis import sentimentAnalysis
 from DatasetBuilder.twitterInformationBuilder import twitterInformationBuilder
