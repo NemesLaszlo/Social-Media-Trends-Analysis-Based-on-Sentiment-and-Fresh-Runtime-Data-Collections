@@ -2,6 +2,7 @@ import secret
 from analysis import sentimentAnalysis
 from DatasetBuilder.twitterInformationBuilder import twitterInformationBuilder
 from DatasetBuilder.twitterDatasetBuilder import twitterDatasetBuilder
+import Tensorflow.naturalLanguageProcessing as tensorflow_npl
 
 
 def main():
@@ -32,6 +33,8 @@ def main():
     twitter_dataset_build.dataset_building(tag=keyword, limit=limit, lang="en")
     # Sentiment Analysis with TextBlob and Visualization
     analysis.sentiment_analysis_textblob()
+    # Sentiment Analysis, Natural Language Processing with Tensorflow 2.0
+    tensorflow_npl.training_and_analyze(keyword_parameter=keyword, limit_parameter=limit)
 
 
 if __name__ == "__main__":
