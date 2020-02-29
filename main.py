@@ -2,13 +2,10 @@ import secret
 from analysis import sentimentAnalysis
 from DatasetBuilder.twitterInformationBuilder import twitterInformationBuilder
 from DatasetBuilder.twitterDatasetBuilder import twitterDatasetBuilder
-from Tensorflow.naturalLanguageProcessing import NLP
 
 
 def main():
-    nlp = NLP()
-    nlp.test_run()
-"""
+
     consumerAPI_Key = secret.consumerAPI_Key
     consumerAPI_Secret = secret.consumerAPI_Secret
     accessToken = secret.accessToken
@@ -35,7 +32,6 @@ def main():
     twitter_dataset_build.dataset_building(tag=keyword, limit=limit, lang="en")
     # Sentiment Analysis with TextBlob and Visualization
     analysis.sentiment_analysis_textblob()
-"""
 
 
 if __name__ == "__main__":
