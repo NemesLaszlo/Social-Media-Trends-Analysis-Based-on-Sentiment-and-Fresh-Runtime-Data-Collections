@@ -32,7 +32,7 @@ def main():
     # Build a DataSet about this theme for analysis
     twitter_dataset_build.dataset_building(tag=keyword, limit=limit, lang="en")
     # Sentiment Analysis with TextBlob and Visualization
-    analysis.sentiment_analysis_textblob()
+    # analysis.sentiment_analysis_textblob()
     # Sentiment Analysis, Natural Language Processing with Tensorflow 2.0
     tensorflow_npl.training_and_analyze(keyword_parameter=keyword, limit_parameter=limit)
 

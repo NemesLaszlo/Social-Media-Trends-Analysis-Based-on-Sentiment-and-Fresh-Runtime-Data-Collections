@@ -142,7 +142,7 @@ def training_and_analyze(keyword_parameter, limit_parameter):
                       wnegative=wnegative, snegative=snegative, neutral=neutral, keyword=keyword,
                       limit=limit)
 
-        tensorflow_model_analyze(keyword=keyword_parameter, limit=limit_parameter)
+    tensorflow_model_analyze(keyword=keyword_parameter, limit=limit_parameter)
 
 
 """
