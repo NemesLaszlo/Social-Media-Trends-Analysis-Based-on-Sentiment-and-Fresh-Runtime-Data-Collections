@@ -1,3 +1,4 @@
+import csv
 import tweepy
 import re
 
@@ -17,14 +18,21 @@ class twitterDatasetBuilder:
         self.tweets = []
 
     def dataset_building(self, tag, limit, lang):
-        self.tweets = tweepy.Cursor(self.api.search, q=tag, lang=lang).items(limit)
-        f = open('result.csv', 'w')
+        #self.tweets = tweepy.Cursor(self.api.search, q=tag + ' -filter:retweets', lang=lang, tweet_mode='extended',
+                                    #since='2020-04-08', until='2020-04-15').items(limit)
+        # f = open('result.csv', 'w')
 
-        for tweet in self.tweets:
-            f.write(str(self.clean_tweet(tweet.text).encode('utf-8')))
-            f.write('\n')
+        with open('result.csv', mode='wt', encoding='UTF-8', newline='') as file:
+            w = csv.writer(file)
+            w.writerow(['Time', 'UserName', 'Tweet_text', 'All_Hashtags', 'Followers_count'])
 
-        f.close()
+            for tweet in tweepy.Cursor(self.api.search, q=tag + ' -filter:retweets', lang=lang, tweet_mode='extended',
+                                       since='2020-04-08', until='2020-04-15').items(limit):
+                w.writerow([tweet.created_at,
+                            tweet.user.screen_name,
+                            self.clean_tweet(tweet.full_text),
+                            [e['text'] for e in tweet._json['entities']['hashtags']],
+                            tweet.user.followers_count])
 
     def clean_tweet(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t]) | (\w +:\ / \ / \S +)", " ", text).split())
