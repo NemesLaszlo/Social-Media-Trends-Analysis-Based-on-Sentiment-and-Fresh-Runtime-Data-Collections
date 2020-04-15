@@ -1,24 +1,28 @@
 from textblob import TextBlob
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 class sentimentAnalysis:
 
-    def __init__(self, keyword, limit):
+    def __init__(self, keyword, limit, begin_date, end_date):
         self.tweetTexts = []
         self.keyword = keyword
         self.limit = limit
+        self.begin_date = begin_date
+        self.end_date = end_date
 
     def read_from_dataset(self):
-        with open("result.csv") as file_in:
-            for line in file_in:
-                self.tweetTexts.append(line)
+        data_set = pd.read_csv("result.csv")
+        # print(data_set['Tweet_text'])
+        for line in data_set['Tweet_text']:
+            self.tweetTexts.append(line)
 
     def percentage(self, part, whole):
         temp = 100 * float(part) / float(whole)
         return format(temp, '.2f')
 
-    def visualization(self, positive, wpositive, spositive, negative, wnegative, snegative, neutral, keyword, limit):
+    def visualization(self, positive, wpositive, spositive, negative, wnegative, snegative, neutral):
         labels = ['Positive [' + str(positive) + '%]', 'Weakly Positive [' + str(wpositive) + '%]',
                   'Strongly Positive [' + str(spositive) + '%]', 'Neutral [' + str(neutral) + '%]',
                   'Negative [' + str(negative) + '%]', 'Weakly Negative [' + str(wnegative) + '%]',
@@ -27,7 +31,7 @@ class sentimentAnalysis:
         colors = ['yellowgreen', 'lightgreen', 'darkgreen', 'gold', 'red', 'lightsalmon', 'darkred']
         patches, texts = plt.pie(sizes, colors=colors, startangle=90)
         plt.legend(patches, labels, loc="best")
-        plt.title('How people are reacting on ' + keyword + ' by analyzing ' + str(limit) + ' Tweets.')
+        plt.title('How people are reacting on ' + self.keyword + ' by analyzing ' + str(self.limit) + ' Tweets.')
         plt.axis('equal')
         plt.tight_layout()
         plt.show()
@@ -102,5 +106,4 @@ class sentimentAnalysis:
         print(str(neutral) + "% people thought it was neutral")
 
         self.visualization(positive=positive, wpositive=wpositive, spositive=spositive, negative=negative,
-                           wnegative=wnegative, snegative=snegative, neutral=neutral, keyword=self.keyword,
-                           limit=self.limit)
+                           wnegative=wnegative, snegative=snegative, neutral=neutral)
