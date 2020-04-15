@@ -1,6 +1,7 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 # tensorflow model training, sentiment analysis, natural language processing
@@ -47,9 +48,10 @@ def training_and_analyze(keyword_parameter, limit_parameter):
         return predictions
 
     def train_dataset_setup():
-        with open("result.csv") as file_in:
-            for line in file_in:
-                tweetTexts.append(line)
+        data_set = pd.read_csv("result.csv")
+        # print(data_set['Tweet_text'])
+        for line in data_set['Tweet_text']:
+            tweetTexts.append(line)
 
     def percentage(part, whole):
         temp = 100 * float(part) / float(whole)
