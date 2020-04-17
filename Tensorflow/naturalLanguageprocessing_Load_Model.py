@@ -2,42 +2,16 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
 import pandas as pd
-from datetime import date
+from tensorflow import keras
 
 
-# tensorflow model training, sentiment analysis, natural language processing
 # inner function
-def training_and_analyze(keyword_parameter, limit_parameter):
-    BUFFER_SIZE = 10000
-    BATCH_SIZE = 64  # for training
+def load_model_analyze(keyword_parameter, limit_parameter, model_name):
     tweetTexts = []
-
-    dataSet, info = tfds.load('imdb_reviews/subwords8k', with_info=True, as_supervised=True)
-    train_dataSet, test_dataSet = dataSet['train'], dataSet['test']
+    info = tfds.load('imdb_reviews/subwords8k', with_info=True, as_supervised=True)
     encoder = info.features['text'].encoder
 
-    padded_shapes = ([None], ())
-    train_dataSet = train_dataSet.shuffle(BUFFER_SIZE).padded_batch(BATCH_SIZE, padded_shapes=padded_shapes)
-    test_dataSet = test_dataSet.padded_batch(BATCH_SIZE, padded_shapes=padded_shapes)
-
-    # sequence of layers
-    # vocabulary size
-    # dense layers etc.
-    model = tf.keras.Sequential([tf.keras.layers.Embedding(encoder.vocab_size, 64),
-                                 tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, return_sequences=True)),
-                                 tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(32)),
-                                 tf.keras.layers.Dense(64, activation='relu'),
-                                 tf.keras.layers.Dropout(0.5),
-                                 tf.keras.layers.Dense(1, activation='sigmoid')])
-
-    model.compile(loss='binary_crossentropy',
-                  optimizer=tf.keras.optimizers.Adam(1e-4),
-                  metrics=['accuracy'])
-
-    fit_model = model.fit(train_dataSet, epochs=5, validation_data=test_dataSet, validation_steps=30)
-
-    today = date.today()
-    model.save('RNN_' + str(today) + '.h5')
+    model = keras.models.load_model(model_name)
 
     # pad the vectors
     def pad_to_size(vec, size):
@@ -152,16 +126,3 @@ def training_and_analyze(keyword_parameter, limit_parameter):
                       limit=limit)
 
     tensorflow_model_analyze(keyword=keyword_parameter, limit=limit_parameter)
-
-
-"""
-sample_text = ('This movie was awesome. The acting was incredible.')
-prediction_ex = predict(sample_text, pad=True) * 100
-
-print('Probability this is a positive %.2f' % prediction_ex)
-
-sample_text = ('This movie was so so. The acting was medicore.')
-prediction_ex = predict(sample_text, pad=True) * 100
-
-print('(2) Probability this is a positive %.2f' % prediction_ex)
-"""
