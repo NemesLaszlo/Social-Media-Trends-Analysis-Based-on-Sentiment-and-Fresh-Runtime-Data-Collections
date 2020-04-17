@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
 import pandas as pd
+from datetime import date
 
 
 # tensorflow model training, sentiment analysis, natural language processing
@@ -19,6 +20,9 @@ def training_and_analyze(keyword_parameter, limit_parameter):
     train_dataSet = train_dataSet.shuffle(BUFFER_SIZE).padded_batch(BATCH_SIZE, padded_shapes=padded_shapes)
     test_dataSet = test_dataSet.padded_batch(BATCH_SIZE, padded_shapes=padded_shapes)
 
+    # sequence of layers
+    # vocabulary size
+    # dense layers etc.
     model = tf.keras.Sequential([tf.keras.layers.Embedding(encoder.vocab_size, 64),
                                  tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, return_sequences=True)),
                                  tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(32)),
@@ -30,7 +34,10 @@ def training_and_analyze(keyword_parameter, limit_parameter):
                   optimizer=tf.keras.optimizers.Adam(1e-4),
                   metrics=['accuracy'])
 
-    history = model.fit(train_dataSet, epochs=5, validation_data=test_dataSet, validation_steps=30)
+    fit_model = model.fit(train_dataSet, epochs=5, validation_data=test_dataSet, validation_steps=30)
+
+    today = date.today()
+    model.save('RNN_' + str(today) + '.h5')
 
     # pad the vectors
     def pad_to_size(vec, size):
@@ -84,21 +91,22 @@ def training_and_analyze(keyword_parameter, limit_parameter):
         train_dataset_setup()
         for tweet in tweetTexts:
             analysis = predict(tweet, pad=True)
+            print(analysis)
             polarity += analysis
 
-            if analysis == 0:
+            if analysis == 0.5:
                 neutral += 1
-            elif 0 < analysis <= 0.3:
+            elif 0.6 < analysis <= 0.7:
                 wpositive += 1
-            elif 0.3 < analysis <= 0.6:
+            elif 0.7 < analysis <= 0.9:
                 positive += 1
-            elif 0.6 < analysis <= 1:
+            elif 0.9 < analysis <= 1:
                 spositive += 1
-            elif -0.3 < analysis <= 0:
+            elif 0.3 < analysis <= 0.4:
                 wnegative += 1
-            elif -0.6 < analysis <= -0.3:
+            elif 0.1 < analysis <= 0.3:
                 negative += 1
-            elif -1 < analysis <= -0.6:
+            elif 0 < analysis <= 0.1:
                 snegative += 1
 
         positive = percentage(part=positive, whole=limit)
@@ -115,19 +123,19 @@ def training_and_analyze(keyword_parameter, limit_parameter):
         print()
         print("General Report: ")
 
-        if polarity == 0:
+        if polarity == 0.5:
             print("Neutral")
-        elif 0 < polarity <= 0.3:
+        elif 0.6 < polarity <= 0.7:
             print("Weakly Positive")
-        elif 0.3 < polarity <= 0.6:
+        elif 0.7 < polarity <= 0.9:
             print("Positive")
-        elif 0.6 < polarity <= 1:
+        elif 0.9 < polarity <= 1:
             print("Strongly Positive")
-        elif -0.3 < polarity <= 0:
+        elif 0.3 < polarity <= 0.4:
             print("Weakly Negative")
-        elif -0.6 < polarity <= -0.3:
+        elif 0.1 < polarity <= 0.3:
             print("Negative")
-        elif -1 < polarity <= -0.6:
+        elif 0 < polarity <= 0.1:
             print("Strongly Negative")
 
         print()
