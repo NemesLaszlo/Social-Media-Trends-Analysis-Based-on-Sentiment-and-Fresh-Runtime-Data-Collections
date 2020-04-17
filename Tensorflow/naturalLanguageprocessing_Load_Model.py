@@ -7,11 +7,13 @@ from tensorflow import keras
 
 # inner function
 def load_model_analyze(keyword_parameter, limit_parameter, model_name):
-    tweetTexts = []
-    info = tfds.load('imdb_reviews/subwords8k', with_info=True, as_supervised=True)
-    encoder = info.features['text'].encoder
 
     model = keras.models.load_model(model_name)
+
+    tweetTexts = []
+    # need to declare the dataset for the loading encoder - this will be the basic training and tested dataset
+    dataSet, info = tfds.load('imdb_reviews/subwords8k', with_info=True, as_supervised=True)
+    encoder = info.features['text'].encoder
 
     # pad the vectors
     def pad_to_size(vec, size):
