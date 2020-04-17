@@ -67,21 +67,22 @@ def load_model_analyze(keyword_parameter, limit_parameter, model_name):
         train_dataset_setup()
         for tweet in tweetTexts:
             analysis = predict(tweet, pad=True)
+            print(analysis)
             polarity += analysis
 
-            if analysis == 0:
+            if analysis == 0.5:
                 neutral += 1
-            elif 0 < analysis <= 0.3:
+            elif 0.6 < analysis <= 0.7:
                 wpositive += 1
-            elif 0.3 < analysis <= 0.6:
+            elif 0.7 < analysis <= 0.9:
                 positive += 1
-            elif 0.6 < analysis <= 1:
+            elif 0.9 < analysis <= 1:
                 spositive += 1
-            elif -0.3 < analysis <= 0:
+            elif 0.3 < analysis <= 0.4:
                 wnegative += 1
-            elif -0.6 < analysis <= -0.3:
+            elif 0.1 < analysis <= 0.3:
                 negative += 1
-            elif -1 < analysis <= -0.6:
+            elif 0 < analysis <= 0.1:
                 snegative += 1
 
         positive = percentage(part=positive, whole=limit)
@@ -98,19 +99,19 @@ def load_model_analyze(keyword_parameter, limit_parameter, model_name):
         print()
         print("General Report: ")
 
-        if polarity == 0:
+        if polarity == 0.5:
             print("Neutral")
-        elif 0 < polarity <= 0.3:
+        elif 0.6 < polarity <= 0.7:
             print("Weakly Positive")
-        elif 0.3 < polarity <= 0.6:
+        elif 0.7 < polarity <= 0.9:
             print("Positive")
-        elif 0.6 < polarity <= 1:
+        elif 0.9 < polarity <= 1:
             print("Strongly Positive")
-        elif -0.3 < polarity <= 0:
+        elif 0.3 < polarity <= 0.4:
             print("Weakly Negative")
-        elif -0.6 < polarity <= -0.3:
+        elif 0.1 < polarity <= 0.3:
             print("Negative")
-        elif -1 < polarity <= -0.6:
+        elif 0 < polarity <= 0.1:
             print("Strongly Negative")
 
         print()
