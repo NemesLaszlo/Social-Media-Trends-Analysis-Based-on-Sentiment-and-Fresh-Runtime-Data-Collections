@@ -6,6 +6,14 @@ In today's world, the social media is everywhere, and everybody come in contact 
 
 Keywords: Natural Language Processing·Recurrent Neural Network·Sentiment Analysis·Deep Learning·Social Media·Visualization
 
+### Used Technologies:
+
+- Tensorflow (https://www.tensorflow.org/)
+- Keras (https://keras.io/)
+- Pandas (https://pandas.pydata.org/)
+- Matplotlib (https://matplotlib.org/)
+- Tweepy (https://www.tweepy.org/)
+
 ### Recurrent Neural Network (RNN)
 
 When we talk about traditional neural networks, all the outputs and inputs are independent of each other. But in the case of recurrent neural networks, the output from the previous steps is fed into the input of the current state.
